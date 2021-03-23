@@ -7,14 +7,15 @@ namespace Equations
     {
         public static void Main(string[] args)
         {
-            var equations = Generator.GenerateEquations(100000);
+            const int equationsNum = 100000;
+            const int threadsNum = 1;
+            var equations = Generator.GenerateEquations(equationsNum);
             
-            // Threads num are equal to available processor threads
+            Console.WriteLine($"Equations num: {equationsNum}\n");
+            // By default threads num are equal to available processor threads
             ParallelSolver.SolveEquations(equations);
             Console.WriteLine($"{ParallelSolver.AvailableThreads} " +
-                              $"threads : {ParallelSolver.Watch.ElapsedMilliseconds}ms\n");
-
-            const int threadsNum = 1;
+                              $"threads : {ParallelSolver.Watch.ElapsedMilliseconds}ms");
             ParallelSolver.SolveEquations(equations, threadsNum);
             Console.WriteLine($"{threadsNum}" +
                               $" threads : {ParallelSolver.Watch.ElapsedMilliseconds}ms");
