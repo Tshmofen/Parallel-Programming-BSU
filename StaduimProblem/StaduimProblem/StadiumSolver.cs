@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 
 namespace StaduimProblem
@@ -10,27 +11,26 @@ namespace StaduimProblem
 
         public Stopwatch Watch { get; }
         
-        public StadiumSolver(int sectorAmount, int sectorCapacity, int sectorGates)
+        public StadiumSolver(int sectorAmount, int sectorCapacity)
         {
-            _stadium = new Stadium(sectorAmount, sectorCapacity, sectorGates);
+            _stadium = new Stadium(sectorAmount, sectorCapacity);
             Watch = new Stopwatch();
         }
 
-        public void StartSimulation()
+        public void StartSimulation(int gatesOnSector)
         {
-            var threads = new Thread[_stadium.SectorsAmount];
+            var gatesAmount = gatesOnSector * _stadium.SectorsAmount;
+            var threads = new Thread[gatesAmount];
             for (var i = 0; i < _stadium.SectorsAmount; i++)
             {
-                var sector = i;
-                threads[sector] = new Thread(() =>
+                for (var j = 0; j < gatesOnSector; j++)
                 {
-                    var peopleToFill = _stadium.SectorCapacity;
-                    while (peopleToFill != 0)
+                    var sector = _stadium.GetSector(i);
+                    threads[i * gatesOnSector + j] = new Thread(() =>
                     {
-                        Thread.Sleep(TimeSpan.FromTicks(1));
-                        peopleToFill -= _stadium.FillSector(sector, peopleToFill);
-                    }
-                });
+                        while (sector.SendMan()) { }
+                    });
+                }
             }
 
             Watch.Start();

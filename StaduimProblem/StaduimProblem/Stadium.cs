@@ -1,49 +1,22 @@
-﻿using System;
-
-namespace StaduimProblem
+﻿namespace StaduimProblem
 {
     public class Stadium
     {
-        private readonly int[] _sectorsFill;
+        private readonly Sector[] _sectors;
 
         public int SectorsAmount { get; }
-        public int SectorGates { get; }
         public int SectorCapacity { get; }
 
-        public Stadium(int sectorAmount, int sectorCapacity, int sectorGates)
+        public Stadium(int sectorsAmount, int sectorCapacity)
         {
-            SectorsAmount = sectorAmount;
+            SectorsAmount = sectorsAmount;
             SectorCapacity = sectorCapacity;
-            SectorGates = sectorGates;
 
-            _sectorsFill = new int[sectorAmount];
+            _sectors= new Sector[sectorsAmount];
+            for (var i = 0; i < sectorsAmount; i++)
+                _sectors[i] = new Sector(sectorCapacity);
         }
 
-        /// <summary>
-        /// Fills the specified sector with the specified amount of people
-        /// </summary>
-        /// <param name="sector">Stadium sector</param>
-        /// <param name="peopleAmount">Amount of people to send in sector</param>
-        /// <returns>amount of people that been filled</returns>
-        public int FillSector(int sector, int peopleAmount)
-        {
-            if (_sectorsFill[sector] == SectorCapacity)
-            {
-                Console.WriteLine("there");
-                return peopleAmount;
-            }
-
-            var peopleToFill = (peopleAmount > SectorGates) ? SectorGates : peopleAmount;
-            _sectorsFill[sector] += peopleAmount % (SectorGates + 1);
-
-            var peopleOverflow = _sectorsFill[sector] - SectorCapacity;
-            if (peopleOverflow > 0)
-            {
-                _sectorsFill[sector] = SectorCapacity;
-                peopleToFill -= peopleOverflow;
-            }
-
-            return peopleToFill;
-        }
+        public Sector GetSector(int sector) => _sectors[sector];
     }
 }
