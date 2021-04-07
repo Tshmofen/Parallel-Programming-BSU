@@ -23,7 +23,9 @@ namespace CalculationProblem
             
             do
             {
-                var member = minus * BigRational.Pow(a, 4 * n + 3) / (factorial * (4 * n + 3));
+                var member = minus 
+                    * BigRational.Pow(a, 4 * n + 3) 
+                    / (factorial * (4 * n + 3));
                 n++;
                 minus *= -1;
                 factorial *= (2*n + 1) * (2 * n);

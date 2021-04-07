@@ -6,7 +6,8 @@ namespace CalculationProblem
 {
     public static class Solver
     {
-        public static (List<double>, List<double>) SolveIntegrals(out long elapsedRow, out long elapsedTrapeze)
+        public static (List<double>, List<double>) SolveIntegrals
+            (out long elapsedRow, out long elapsedTrapeze)
         {
             var rowSolutions = new List<double>();
             var trapezeSolutions = new List<double>();
@@ -25,7 +26,7 @@ namespace CalculationProblem
             {
                 watchTrapeze.Start();
                 for (var i = 1; i < 10; i++)
-                    trapezeSolutions.Add((double)Calculating.IntegralSinX2Trapeze(i, 200));
+                    trapezeSolutions.Add(Calculating.IntegralSinX2Trapeze(i, 200));
                 watchTrapeze.Stop();
             });
             
