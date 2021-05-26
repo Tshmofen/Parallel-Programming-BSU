@@ -19,8 +19,13 @@ namespace OptimalComposition
                 overhead
                 );
 
-            foreach (var time in builder.BuildDurations())
-                Console.WriteLine(time);
+            var (minValue, optimalComposition) = builder.Perform();
+            Console.WriteLine($"Min value = {minValue}");
+            Console.WriteLine($"Optimal amount of block = {optimalComposition.Count}");
+            
+            Console.Write("\nComposition values: ");
+            foreach (var value in optimalComposition)
+                Console.Write($"{value} ");
         }
     }
 }
